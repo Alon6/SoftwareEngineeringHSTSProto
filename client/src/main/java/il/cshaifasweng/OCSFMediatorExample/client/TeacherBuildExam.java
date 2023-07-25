@@ -4,34 +4,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.util.converter.DefaultStringConverter;
+import javafx.fxml.Initializable;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
 public class TeacherBuildExam implements Initializable {
-    @FXML
-    private TableView<DoubleString> questions_table;
-
-    @FXML
-    private TableColumn<String, String> selectedQuestionCol;
-
-    @FXML
-    private TableColumn<DoubleString, String> gradesCol;
 
     @FXML
     private Button another_q_btn;
@@ -60,6 +47,8 @@ public class TeacherBuildExam implements Initializable {
     @FXML
     private Button save_q_btn;
 
+    @FXML
+    private TextArea selected_questions_text_area;
 
     @FXML
     private TextArea note_to_students;
@@ -67,15 +56,9 @@ public class TeacherBuildExam implements Initializable {
     @FXML
     private TextArea note_to_teachers;
 
-    @FXML
-    private Button another_exam_btn;
 
     @FXML
     private Label teacher_name;
-
-    private DoubleString questionGradePair;
-
-    private ObservableList<DoubleString> selectedQ = FXCollections.observableArrayList();
 
     private static String msg;
 
@@ -86,40 +69,8 @@ public class TeacherBuildExam implements Initializable {
         msg = message;
     }
 
-    private void editData() {
-        gradesCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        gradesCol.setOnEditCommit(
-                t -> t.getTableView().getItems().get(
-                        t.getTablePosition().getRow()));
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        questions_list_view.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-        // Associate the columns with data properties
-        selectedQuestionCol.setCellValueFactory(new PropertyValueFactory<>("question"));
-        gradesCol.setCellValueFactory(new PropertyValueFactory<>("grade"));
-
-        // Make the grades column editable
-        gradesCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        gradesCol.setEditable(true);
-
-        // Make the grades column editable
-        gradesCol.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
-        gradesCol.setOnEditCommit(event -> {
-            // Get the updated value from the event
-            String newGrade = event.getNewValue();
-            // Get the corresponding DoubleString item
-            DoubleString doubleString = event.getTableView().getItems().get(event.getTablePosition().getRow());
-            // Update the grade property of the DoubleString item
-            doubleString.setGrade(newGrade);
-        });
-
-        // Set the items of the TableView
-        questions_table.setItems(selectedQ);
-
-        // Initialize choice box
         teacher_name.setText(SimpleClient.name);
         courses_choice_box.setOnAction(this::addCourse);
         SimpleClient.sendMessage("Get All Courses For Exam" + SimpleClient.name);
@@ -134,6 +85,7 @@ public class TeacherBuildExam implements Initializable {
         ObservableList<String> observableList = FXCollections.observableArrayList(subjectList);
         courses_choice_box.setItems(observableList);
         msg = null;
+
 //        // initialize courses_list_view
 //        SimpleClient.sendMessage("Get All Questions For Exam");
 //        while (msg == null){
@@ -181,12 +133,9 @@ public class TeacherBuildExam implements Initializable {
         List<String> selectedQuestions = questions_list_view.getSelectionModel().getSelectedItems();
         for (String item : selectedQuestions)
         {
-            questionGradePair = new DoubleString(item, "");
-            selectedQ.add(questionGradePair);
+            textAreaString += String.format("%s%n",(String) item);
         }
-        System.out.println("after loop on items");
-        questions_table.setItems(selectedQ);
-        System.out.println(selectedQ);
+        selected_questions_text_area.setText(textAreaString);
     }
 
     @FXML
@@ -195,47 +144,21 @@ public class TeacherBuildExam implements Initializable {
     }
 
     @FXML
-    void saveExamBtn(ActionEvent event) {
+    void saveQuestionBtn(ActionEvent event) {
         //String exam_without_questions =  question_text_field.getText() + "---" + answer1_text_field.getText() + "///" + "true" + "---" + answer2_text_field.getText() + "///" + "false" + "---" + answer3_text_field.getText() + "///" + "false" + "---" + answer4_text_field.getText() + "///" + "false" + "---" + subject_name;
         String exam_without_questions =  exam_name.getText() + "@@@" + course_name + "@@@" + duration_test_area.getText() + "@@@" + note_to_students.getText() + "@@@" + note_to_teachers.getText() + "@@@" + SimpleClient.name;
 //        System.out.println(exam_without_questions);
         SimpleClient.sendMessage("save basic exam" + exam_without_questions);
-        System.out.println("Pressed button to save basic exam!\n\n");
-
-        // Save exam questions
-        List<DoubleString> rows = questions_table.getSelectionModel().getSelectedItems();
-        for (DoubleString doubleString : rows) {
-            String question = doubleString.getQuestion();
-            String grade = doubleString.getGrade();
-            System.out.println("save exam-question" + exam_name.getText() + "```" + question + "```" + grade + "end of msg");
-            SimpleClient.sendMessage("save exam-question" + exam_name.getText() + "```" + question + "```" + grade);         // TODO: need to change 10 to teacher-chosen points for the question
-        }
-        // Open another "teacher_build_exam.fxml" page
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("teacher_build_exam.fxml"));
-            Parent root = loader.load();
-            Scene nextScene = new Scene(root);
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.setScene(nextScene);
-            currentStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        System.out.println("Pressed button to save basic exam!");
+        List<String> selectedQuestions = questions_list_view.getSelectionModel().getSelectedItems();
+        for (String question : selectedQuestions)
+        {
+            SimpleClient.sendMessage("save exam-question" + exam_name.getText() + "```" + question + "```" + "10");        // TODO: need to change 10 to teacher-chosen points for the question
         }
     }
 
     @FXML
     void viewLastPage(ActionEvent event) {
-        // Go to "teacher_primary.fxml"
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("teacher_primary.fxml"));
-            Parent root = loader.load();
-            Scene nextScene = new Scene(root);
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.setScene(nextScene);
-            currentStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -256,23 +179,5 @@ public class TeacherBuildExam implements Initializable {
         ObservableList<String> observableList1 = FXCollections.observableArrayList(questionList);
         questions_list_view.setItems(observableList1);
         msg = null;
-    }
-
-    @FXML
-    void AnotherExamBtn(ActionEvent event) {
-        // Save the exam first
-        saveExamBtn(event);
-
-        // Open a new "teacher_build_exam.fxml"
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("teacher_build_examn.fxml"));
-            Parent root = loader.load();
-            Scene nextScene = new Scene(root);
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.setScene(nextScene);
-            currentStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

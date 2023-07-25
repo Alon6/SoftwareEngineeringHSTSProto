@@ -17,9 +17,14 @@
          <right>
             <Pane prefHeight="95.0" prefWidth="596.0" style="-fx-background-color: #ecfcec;" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="128.0" layoutY="14.0" prefHeight="66.0" prefWidth="362.0" text="Create Questions" textFill="#336633">
+                  <Label layoutX="135.0" layoutY="14.0" prefHeight="66.0" prefWidth="326.0" text="Create Questions" textAlignment="CENTER" textFill="#336633">
                      <font>
-                        <Font name="System Bold" size="45.0" />
+                        <Font name="Calibri Bold" size="45.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="222.0" layoutY="82.0" text="Name: ">
+                     <font>
+                        <Font name="Calibri" size="14.0" />
                      </font>
                   </Label>
                </children>
@@ -31,66 +36,73 @@
             <Pane prefHeight="662.0" prefWidth="595.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER" />
          </right>
       </BorderPane>
-      <Label layoutX="24.0" layoutY="91.0" text="Name: ">
+      <Label fx:id="teacher_name" layoutX="288.0" layoutY="91.0" prefHeight="20.0" prefWidth="131.0" text="Teacher Name">
          <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label fx:id="teacher_name" layoutX="75.0" layoutY="91.0" prefHeight="20.0" prefWidth="131.0" text="Teacher Name">
-         <font>
-            <Font size="14.0" />
+            <Font name="Calibri" size="14.0" />
          </font>
       </Label>
       <ChoiceBox fx:id="subjects_choice_box" layoutX="246.0" layoutY="157.0" prefHeight="38.0" prefWidth="207.0" />
       <Label fx:id="teacher_id1" layoutX="181.0" layoutY="166.0" prefHeight="20.0" prefWidth="99.0" text="Subject">
          <font>
-            <Font size="14.0" />
+            <Font name="Calibri" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="another_q_btn" layoutX="247.0" layoutY="743.0" mnemonicParsing="false" onAction="#AnotherQuestionBtn" text="Add Another Question" />
-      <Button fx:id="go_back_button" layoutX="457.0" layoutY="743.0" mnemonicParsing="false" onAction="#viewLastPage" prefHeight="25.0" prefWidth="136.0" text="Go Back" />
+      <Button fx:id="another_q_btn" layoutX="247.0" layoutY="743.0" mnemonicParsing="false" onAction="#AnotherQuestionBtn" text="Add Another Question">
+         <font>
+            <Font name="Calibri" size="13.0" />
+         </font></Button>
+      <Button fx:id="go_back_button" layoutX="457.0" layoutY="743.0" mnemonicParsing="false" onAction="#viewLastPage" prefHeight="25.0" prefWidth="136.0" text="Go Back">
+         <font>
+            <Font name="Calibri" size="13.0" />
+         </font></Button>
       <Label fx:id="teacher_id11" layoutX="24.0" layoutY="244.0" prefHeight="20.0" prefWidth="99.0" text="Question">
          <font>
-            <Font size="14.0" />
+            <Font name="Calibri" size="14.0" />
          </font>
       </Label>
       <TextField fx:id="question_text_field" layoutX="90.0" layoutY="216.0" onAction="#initializeQuestionTF" onKeyTyped="#updateQuestion" prefHeight="73.0" prefWidth="518.0" />
       <Label fx:id="teacher_id111" layoutX="24.0" layoutY="334.0" prefHeight="20.0" prefWidth="99.0" text="Answer 1">
          <font>
-            <Font size="14.0" />
+            <Font name="Calibri" size="14.0" />
          </font>
       </Label>
       <TextField fx:id="answer1_text_field" layoutX="90.0" layoutY="310.0" onAction="#initializeAns1TF" prefHeight="66.0" prefWidth="207.0" />
       <Label fx:id="teacher_id1111" layoutX="332.0" layoutY="334.0" prefHeight="20.0" prefWidth="99.0" text="Answer 2">
          <font>
-            <Font size="14.0" />
+            <Font name="Calibri" size="14.0" />
          </font>
       </Label>
       <TextField fx:id="answer2_text_field" layoutX="400.0" layoutY="310.0" onAction="#initializeAns2TF" prefHeight="66.0" prefWidth="207.0" />
       <Label fx:id="teacher_id1112" layoutX="24.0" layoutY="415.0" prefHeight="20.0" prefWidth="99.0" text="Answer 3">
          <font>
-            <Font size="14.0" />
+            <Font name="Calibri" size="14.0" />
          </font>
       </Label>
       <TextField fx:id="answer3_text_field" layoutX="90.0" layoutY="391.0" onAction="#initializeAns3TF" prefHeight="66.0" prefWidth="207.0" />
       <Label fx:id="teacher_id11111" layoutX="332.0" layoutY="415.0" prefHeight="20.0" prefWidth="99.0" text="Answer 4">
          <font>
-            <Font size="14.0" />
+            <Font name="Calibri" size="14.0" />
          </font>
       </Label>
       <TextField fx:id="answer4_text_field" layoutX="400.0" layoutY="391.0" onAction="#initializeAns4TF" prefHeight="66.0" prefWidth="207.0" />
-      <Button fx:id="save_q_btn" layoutX="40.0" layoutY="743.0" mnemonicParsing="false" onAction="#saveQuestionBtn" prefHeight="25.0" prefWidth="136.0" text="Save Question" />
+      <Button fx:id="save_q_btn" layoutX="40.0" layoutY="743.0" mnemonicParsing="false" onAction="#saveQuestionBtn" prefHeight="25.0" prefWidth="136.0" text="Save Question">
+         <font>
+            <Font name="Calibri" size="13.0" />
+         </font></Button>
       <ListView fx:id="courses_list_view" layoutX="92.0" layoutY="518.0" prefHeight="161.0" prefWidth="207.0" />
       <Label fx:id="teacher_id11121" layoutX="24.0" layoutY="588.0" prefHeight="20.0" prefWidth="99.0" text="Courses">
          <font>
-            <Font size="14.0" />
+            <Font name="Calibri" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="courses_button" layoutX="317.0" layoutY="586.0" mnemonicParsing="false" onAction="#coursesBtnPushed" text="Select -&gt;" />
+      <Button fx:id="courses_button" layoutX="317.0" layoutY="586.0" mnemonicParsing="false" onAction="#coursesBtnPushed" text="Select -&gt;">
+         <font>
+            <Font name="Calibri" size="13.0" />
+         </font></Button>
       <TextArea fx:id="selected_courses_text_area" layoutX="400.0" layoutY="480.0" prefHeight="199.0" prefWidth="207.0" />
       <Label fx:id="teacher_id11122" layoutX="24.0" layoutY="478.0" prefHeight="20.0" prefWidth="173.0" text="Enter Correct Answer (digit)">
          <font>
-            <Font size="14.0" />
+            <Font name="Calibri" size="14.0" />
          </font>
       </Label>
       <TextField fx:id="correct_ans_text_field" layoutX="208.0" layoutY="477.0" onAction="#updateCorrectAns" prefHeight="25.0" prefWidth="89.0" />
