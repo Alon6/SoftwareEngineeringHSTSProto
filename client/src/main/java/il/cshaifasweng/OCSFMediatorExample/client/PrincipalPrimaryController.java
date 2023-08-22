@@ -243,6 +243,10 @@ public class PrincipalPrimaryController {
 
     @FXML
     void Approve(ActionEvent event) {
+        if(extentionTb.getText()=="")//new
+        {
+            return;
+        }
         SimpleClient.sendMessage("Indeed approved_" + examID + "_" + minutes );
         System.out.println("not wowwww");
         extentionTb.setText("extension approved!");
@@ -252,6 +256,10 @@ public class PrincipalPrimaryController {
 
     @FXML
     void NotApprove(ActionEvent event) {
+        if(extentionTb.getText()=="")//new
+        {
+            return;
+        }
         SimpleClient.sendMessage("ExtensionResponse not approved");
         System.out.println("not wowwww");
         extentionTb.setText("extension denied!");
@@ -261,6 +269,7 @@ public class PrincipalPrimaryController {
     @FXML
     void ResetExtention(ActionEvent event) {
         extentionTb.setText("");
+        ResetExtentionBtn.setVisible(false);//new
         //SimpleClient.sendMessage("RequestMoreTime");
     }
 
@@ -860,7 +869,8 @@ public class PrincipalPrimaryController {
 
     @FXML
     void initialize() throws IOException {
-        //anotherTF.setText("hello");
+        //anotherTF.setText("hello");//new
+        ResetExtentionBtn.setVisible(false);
         extentionTb.setText("");
         Parent userParent = il.cshaifasweng.OCSFMediatorExample.client.App.loadFXML("log_out");
         pane.getChildren().add(0, userParent);
